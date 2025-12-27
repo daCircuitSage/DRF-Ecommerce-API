@@ -44,7 +44,7 @@ CoreApiProject/
 │   ├── urls.py
 │
 ├── manage.py
-├── requirements.txt
+├── .gitignore
 └── README.md
 
 ```
@@ -53,7 +53,7 @@ CoreApiProject/
 
 Clone Repo:
 ```bash
-  git clone <repo link>
+  git clone https://github.com/daCircuitSage/DRF-Ecommerce-API.git
 ```
 
 For windows:
