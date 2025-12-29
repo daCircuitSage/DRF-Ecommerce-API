@@ -37,13 +37,28 @@ User = get_user_model()
 
 @api_view(['GET'])
 def product_list(request):
-    products = Product.objects.filter(featured=True)
+    products = (
+        Product.objects
+        .select_related('category')
+        .only(
+            'id',
+            'name',
+            'slug',
+            'price',
+            'image',
+            'category__name'
+        )
+        .filter(featured=True)
+    )
     serializer = ProductListSerializer(products, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def product_detail(request, slug):
-    product = Product.objects.get(slug=slug)
+    try:
+        product = Product.objects.select_related('category').get(slug=slug)
+    except  Product.DoesNotExist:
+        return Response('Product does not exist', status=status.HTTP_404_NOT_FOUND)
     serializer = ProductDetailSerializer(product)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
